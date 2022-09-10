@@ -22,15 +22,12 @@ color_list = [
             'g', 
             'purple',
             'b',
-            'y', 
             'r'
             ]
-
 
 label_list = [
             num_expert,
             100,
-            num_expert,
             num_expert,
             num_expert
 ]
@@ -39,9 +36,14 @@ folder_list = [
     f"{algo}_Original_{num_expert}",
     f"{algo}_Original_100",
     f"G-{algo}_Old_Classifier_{num_expert}",
-    f"G-{algo}_equi_Classifier_{num_expert}",
     f"G-{algo}_Perfect_Classifier_{num_expert}"
 ]
+
+if (task == 'house_building_4'):
+  color_list.append('y')
+  label_list.append(num_expert)
+  folder_list.append(f"G-{algo}_equi_Classifier_{num_expert}")
+
 file_name = 'info/eval_rewards.npy'
 line_list = []
 
@@ -76,3 +78,4 @@ plt.tight_layout()
 plt.grid()
 # plt.show()
 plt.savefig(os.path.join('Figures', f'{parent_folder}_{algo}.png'),dpi=600)
+
