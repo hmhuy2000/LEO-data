@@ -85,7 +85,7 @@ folder_list = [
     f"G-{algo}_Perfect_Classifier_{num_expert}"
 ]
 
-if (task == 'house_building_4'):
+if (task in ['house_building_4']):
   color_list.append('y')
   # label_list.append(num_expert)
   folder_list.append(f"G-{algo}_equi_Classifier_{num_expert}")
