@@ -29,12 +29,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--file', type=str)
 parser.add_argument('--task', type=str, default='house_building_1', help="'house_building_1','house_building_2'")
 parser.add_argument('--algo', type=str, default='DQN', help="'DQN'")
-parser.add_argument('--show', type=int, default=1)
+parser.add_argument('--show', type=int, default=0)
 args = parser.parse_args()
 
 task = args.task
 algo = args.algo
-num_expert = 0
+num_expert = 5
 
 sns.set_style('darkgrid')
 
@@ -54,11 +54,15 @@ color_list = [
             ]
 
 label_list = [
+            f"{algo}-{0}",
+            f"LEO-{algo}-{0}",
             f"{algo}-{num_expert}",
             f"LEO-{algo}-{num_expert}",
 ]
 # folder_list = os.listdir(parent_folder)
 folder_list = [
+    f"{algo}_Original_{0}",
+    f"G-{algo}_Old_Classifier_{0}",
     f"{algo}_Original_{num_expert}",
     f"G-{algo}_Old_Classifier_{num_expert}",
 ]
@@ -95,4 +99,4 @@ plt.tight_layout()
 if args.show == 1:
   plt.show()
 else:
-  plt.savefig(os.path.join('Figures', f'{parent_folder}_{algo}.png'),dpi=600)
+  plt.savefig(os.path.join('Figures', f'nonExpert_{parent_folder}_{algo}.png'),dpi=600)
