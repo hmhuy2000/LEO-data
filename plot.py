@@ -27,9 +27,9 @@ def lpf(arr, weight=0.8):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', type=str)
-parser.add_argument('--task', type=str, default='block_stacking', help="'1l2b2r','block_stacking','house_building_1','house_building_2','house_building_4")
+parser.add_argument('--task', type=str, default='house_building_4', help="'1l2b2r','block_stacking','house_building_1','house_building_2','house_building_4")
 parser.add_argument('--algo', type=str, default='DQN', help="'DQN','SDQfD'")
-parser.add_argument('--show', type=int, default=1)
+parser.add_argument('--show', type=int, default=0)
 args = parser.parse_args()
 
 num_experts_lookup = {'1l2b2r': 15,
@@ -55,13 +55,6 @@ else:
 
 #------------------------------------------------------------#
 parent_folder = f'new_{task}'
-# color_list = [
-#             'g', 
-#             'purple',
-#             'b',
-#             'y', 
-#             'r'
-#             ]
 
 color_list = [
             cmap.colors[0],
@@ -74,22 +67,17 @@ color_list = [
 label_list = [
             f"{algo}-{num_expert}",
             f"{algo}-100",
-            f"LEO-{algo}-{num_expert}",
-            f"LEO-{algo}-{num_expert} (Perfect)",
+            f"LEO-{algo}-{num_expert}(Non-Equi)",
+            f"LEO-{algo}-{num_expert}"
 ]
 # folder_list = os.listdir(parent_folder)
 folder_list = [
     f"{algo}_Original_{num_expert}",
     f"{algo}_Original_100",
-    f"G-{algo}_Old_Classifier_{num_expert}",
-    f"G-{algo}_Perfect_Classifier_{num_expert}"
+    f"new_G-{algo}_normal_{num_expert}",
+    f"new_G-{algo}_equi_{num_expert}",
 ]
 
-if (task in ['house_building_4']):
-  color_list.append('y')
-  # label_list.append(num_expert)
-  folder_list.append(f"G-{algo}_equi_Classifier_{num_expert}")
-  label_list.append(f"LEO-{algo}-{num_expert} (Equi)",)
 
 file_name = 'info/eval_rewards.npy'
 line_list = []
@@ -101,7 +89,6 @@ for id, folder_name in enumerate(folder_list):
 
   for i, sub_folder in enumerate(sub_folder_list):
     arr = np.load(os.path.join(parent_folder, folder_name, sub_folder, file_name), allow_pickle=True)
-    # print(len(arr))
     arr = arr[0:len(arr)-1]
     avg.append([])
     for j in range(len(arr)):
@@ -128,3 +115,4 @@ if args.show == 1:
   plt.show()
 else:
   plt.savefig(os.path.join('Figures', f'{parent_folder}_{algo}.png'),dpi=600)
+  print(f'save file at {parent_folder}_{algo}.png')
